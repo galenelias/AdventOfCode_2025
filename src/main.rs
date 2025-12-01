@@ -38,7 +38,7 @@ fn main() {
 			.filter_map(|l| l.ok())
 			.collect::<Vec<String>>();
 	} else {
-		let aoc_fetcher = emergence::AoC::new(2024).expect("Couldn't instantiate AoC object");
+		let aoc_fetcher = emergence::AoC::new(2025).expect("Couldn't instantiate AoC object");
 		let prob_input = aoc_fetcher
 			.read_or_fetch(cli.day as usize)
 			.expect("Couldn't fetch problem input");

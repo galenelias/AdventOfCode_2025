@@ -1,34 +1,43 @@
-use itertools::Itertools;
-use std::collections::HashMap;
-
 pub fn solve(inputs: Vec<String>) {
-	let parts = inputs
-		.iter()
-		.map(|x| {
-			x.split_whitespace()
-				.map(|x| x.parse::<i32>().unwrap())
-				.collect_vec()
-		})
-		.collect_vec();
+	let mut dial: i32 = 50;
+	let mut part1 = 0;
+	let mut part2 = 0;
 
-	let list1 = parts.iter().map(|x| x[0]).sorted().collect_vec();
-	let list2 = parts.iter().map(|x| x[1]).sorted().collect_vec();
+	for input in inputs {
+		let dir = input.chars().next().unwrap();
+		let num = input[1..].parse::<i32>().unwrap();
 
-	let part1 = list1
-		.iter()
-		.zip(&list2)
-		.map(|(a, b)| (a - b).abs())
-		.sum::<i32>();
+		match dir {
+			'L' => {
+				for _ in 0..num {
+					dial -= 1;
+					if dial < 0 {
+						dial += 100;
+					}
+					if dial == 0 {
+						part2 += 1;
+					}
+				}
+			}
+			'R' => {
+				for _ in 0..num {
+					dial += 1;
+					if dial >= 100 {
+						dial -= 100;
+					}
+					if dial == 0 {
+						part2 += 1;
+					}
+				}
+			}
+			_ => unreachable!(),
+		}
+
+		if dial == 0 {
+			part1 += 1;
+		}
+	}
+
 	println!("Part 1: {part1}");
-
-	let list2_freqs = list2.iter().fold(HashMap::new(), |mut acc, x| {
-		*acc.entry(x).or_insert(0) += 1;
-		acc
-	});
-
-	let part2 = list1
-		.iter()
-		.map(|x| *x * list2_freqs.get(x).unwrap_or(&0))
-		.sum::<i32>();
 	println!("Part 2: {part2}");
 }
