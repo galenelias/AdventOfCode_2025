@@ -1,0 +1,15 @@
+[package]
+name = "advent_of_code_2025"
+version = "0.1.0"
+authors = ["Galen Elias <gelias@gmail.com>"]
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.0.29", features = ["derive"] }
+regex = "*"
+itertools = "*"
+emergence = "2.0.0"
+
+[[bin]]
+name = "aoc"
+path = "src/main.rs"

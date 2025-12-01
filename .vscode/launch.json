@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "cppvsdbg",
+            "request": "launch",
+            "name": "Launch Advent of Code 2025",
+            "program": "${workspaceFolder}/target/debug/aoc.exe",
+            "args": ["1", "--file=${workspaceFolder}/inputs/sample.txt"],
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
