@@ -7,6 +7,7 @@ use clap::Parser;
 use std::io::{self, BufRead};
 
 mod day01;
+mod day02;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -51,6 +52,7 @@ fn main() {
 
 	match cli.day {
 		1 => day01::solve(input),
+		2 => day02::solve(input),
 
 		_ => println!("Oops! Day {} isn't implemented yet!", cli.day),
 	}
