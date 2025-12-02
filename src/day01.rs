@@ -5,7 +5,10 @@ pub fn solve(inputs: Vec<String>) {
 
 	for input in inputs {
 		let dir = input.chars().next().unwrap();
-		let num = input[1..].parse::<i32>().unwrap();
+		let mut num = input[1..].parse::<i32>().unwrap();
+
+		part2 += num / 100;
+		num = num % 100;
 
 		match dir {
 			'L' => {
