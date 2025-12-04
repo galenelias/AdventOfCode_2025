@@ -11,27 +11,14 @@ pub fn solve(inputs: Vec<String>) {
 
 		for x in lower..=upper {
 			let chars = x.to_string().chars().collect_vec();
-
 			let mut part1_valid = true;
 			let mut part2_valid = true;
 
 			// Try all possible repeating patterns of length N
 			for pattern_len in 1..=(chars.len() / 2) {
-				// But string must be divisible by N
-				if (chars.len() % pattern_len) != 0 {
-					continue;
-				}
-
 				let num_repeats = chars.len() / pattern_len;
-
-				let mut is_repeated = true;
-				for r in 1..num_repeats {
-					for i in 0..pattern_len {
-						if chars[i] != chars[r * pattern_len + i] {
-							is_repeated = false;
-						}
-					}
-				}
+				let chunks = chars.chunks(pattern_len).collect_vec();
+				let is_repeated = chunks.iter().all(|chunk| chunk == &chunks[0]);
 
 				if is_repeated {
 					part2_valid = false;
