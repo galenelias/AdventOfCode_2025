@@ -3,26 +3,14 @@ use itertools::Itertools;
 fn count_adjacent(grid: &Vec<Vec<char>>, row: usize, col: usize) -> usize {
 	let mut result = 0;
 
-	for dr in -1..=1 {
-		if let Some(r) = row.checked_add_signed(dr) {
-			if r >= grid.len() {
+	for r in row.saturating_sub(1)..grid.len().min(row + 2) {
+		for c in col.saturating_sub(1)..grid[r].len().min(col + 2) {
+			if r == row && c == col {
 				continue;
 			}
 
-			for dc in -1..=1 {
-				if let Some(c) = col.checked_add_signed(dc) {
-					if c >= grid[r].len() {
-						continue;
-					}
-
-					if dr == 0 && dc == 0 {
-						continue;
-					}
-
-					if grid[r][c] == '@' {
-						result += 1;
-					}
-				}
+			if grid[r][c] == '@' {
+				result += 1;
 			}
 		}
 	}
