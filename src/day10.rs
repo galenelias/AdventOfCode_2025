@@ -1,18 +1,15 @@
 use itertools::Itertools;
-use std::collections::{HashSet, VecDeque};
+use std::collections::VecDeque;
 
 #[derive(Debug)]
 struct Machine {
 	lights: Vec<bool>,
 	buttons: Vec<Vec<usize>>,
-	joltages: Vec<usize>,
+	_joltages: Vec<usize>,
 }
-
-// fn sub_solve(lights: &Vec<bool>, presses: usize)
 
 fn turn_on(machine: &Machine) -> usize {
 	let mut queue = VecDeque::new();
-	// let mut seen = HashSet::new();
 
 	queue.push_back((0, vec![false; machine.lights.len()]));
 
@@ -36,43 +33,6 @@ fn turn_on(machine: &Machine) -> usize {
 	unreachable!("Couldn't find solution");
 }
 
-fn configure_joltage(machine: &Machine) -> usize {
-	let mut queue = VecDeque::new();
-	let mut seen = HashSet::new();
-
-	queue.push_back((0, vec![0; machine.joltages.len()]));
-
-	while !queue.is_empty() {
-		let (presses, joltages) = queue.pop_front().unwrap();
-
-		if joltages == machine.joltages {
-			return presses;
-		}
-
-		if !seen.insert(joltages.clone()) {
-			continue;
-		}
-
-		// Try pressing each button
-		let mut is_good = true;
-		for button in &machine.buttons {
-			let mut new_joltages = joltages.clone();
-			for &wire in button {
-				new_joltages[wire] += 1;
-				if new_joltages[wire] > machine.joltages[wire] {
-					is_good = false;
-					break;
-				}
-			}
-			if is_good {
-				queue.push_back((presses + 1, new_joltages));
-			}
-		}
-	}
-
-	unreachable!("Couldn't find solution");
-}
-
 pub fn solve(inputs: Vec<String>) {
 	let machines = inputs
 		.iter()
@@ -82,7 +42,6 @@ pub fn solve(inputs: Vec<String>) {
 
 			let lights = lights
 				.trim_matches(['[', ']'])
-				// .trim_end_matches(']')
 				.chars()
 				.map(|ch| match ch {
 					'.' => false,
@@ -102,7 +61,7 @@ pub fn solve(inputs: Vec<String>) {
 				})
 				.collect_vec();
 
-			let joltages = joltages
+			let _joltages = joltages
 				.trim_end_matches('}')
 				.split(',')
 				.map(|num| num.parse::<usize>().unwrap())
@@ -111,7 +70,7 @@ pub fn solve(inputs: Vec<String>) {
 			Machine {
 				lights,
 				buttons,
-				joltages,
+				_joltages,
 			}
 		})
 		.collect_vec();
@@ -119,18 +78,10 @@ pub fn solve(inputs: Vec<String>) {
 	let mut part1 = 0;
 	for machine in &machines {
 		let presses = turn_on(machine);
-		// println!("Solved in {presses} presses");
 		part1 += presses;
 	}
 
-	// println!("{:?}", machines);
 	println!("Part 1: {part1}");
 
-	let mut part2 = 0;
-	for machine in &machines {
-		let presses = configure_joltage(machine);
-		println!("Solved in {presses} presses");
-		part2 += presses;
-	}
-	println!("Part 2: {part2}");
+	// Part 2 is solved in Python in day10.py
 }
